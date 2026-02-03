@@ -445,7 +445,7 @@ const FORM_CONFIGS = {
                 label: 'Jakie macie doświadczenie w RP', 
                 type: 'select', 
                 required: true, 
-                options: ['Słabe', 'Przeciętne', 'Bardzo Dobre', 'Hard RP'] 
+                options: ['Słabe', 'Przeciętne', 'Bardzo dobre', 'Hard RP'] 
             },
         ]
     },
