@@ -37,37 +37,68 @@ async function fetchPlayerCount() {
     console.log('🔄 Fetching player count...');
     
     try {
-        // Method 1: Try direct FiveM API with IP:PORT
-        console.log(`Trying: https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`);
-        let response = await fetch(`https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`);
+        // Try multiple API endpoint variations
+        const endpoints = [
+            // Method 1: CFX code only (most common)
+            `https://servers-frontend.fivem.net/api/servers/single/${CONFIG.cfxServerCode}`,
+            // Method 2: Full CFX path
+            `https://servers-frontend.fivem.net/api/servers/single/cfx.re/join/${CONFIG.cfxServerCode}`,
+            // Method 3: Direct IP:PORT
+            `https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`
+        ];
         
-        if (!response.ok) {
-            // Method 2: Try with CFX code
-            console.log('Method 1 failed, trying CFX code...');
-            response = await fetch(`https://servers-frontend.fivem.net/api/servers/single/cfx.re/join/${CONFIG.cfxServerCode}`);
+        let data = null;
+        let successfulEndpoint = null;
+        
+        // Try each endpoint until one works
+        for (const endpoint of endpoints) {
+            try {
+                console.log(`Trying: ${endpoint}`);
+                const response = await fetch(endpoint);
+                
+                if (response.ok) {
+                    data = await response.json();
+                    successfulEndpoint = endpoint;
+                    console.log('✅ Server data received from:', endpoint);
+                    break;
+                }
+            } catch (err) {
+                console.log(`Failed to fetch from ${endpoint}:`, err.message);
+                continue;
+            }
         }
         
-        if (!response.ok) {
-            throw new Error('Server not found in FiveM list');
+        if (!data) {
+            throw new Error('Server not found in any FiveM API endpoint');
         }
         
-        const data = await response.json();
-        console.log('✅ Server data received:', data);
+        console.log('Server data:', data);
         
-        // Parse player data - try multiple possible locations
+        // Parse player data - handle different API response structures
         let playerCount = 0;
         let maxPlayers = 128;
         
+        // FiveM API typically returns data in 'Data' object
         if (data.Data) {
-            playerCount = data.Data.clients || data.Data.players || 0;
-            maxPlayers = data.Data.sv_maxclients || data.Data.svMaxclients || 128;
-        } else if (data.players !== undefined) {
-            playerCount = data.players;
-            maxPlayers = data.maxPlayers || 128;
+            // Try to get player count from various possible fields
+            playerCount = parseInt(data.Data.clients) || 
+                         parseInt(data.Data.players) || 
+                         parseInt(data.Data.playerCount) || 0;
+            
+            // Try to get max players from various possible fields
+            maxPlayers = parseInt(data.Data.sv_maxclients) || 
+                        parseInt(data.Data.svMaxclients) || 
+                        parseInt(data.Data.maxPlayers) || 128;
+        } 
+        // Alternative structure (less common)
+        else if (data.players !== undefined || data.clients !== undefined) {
+            playerCount = parseInt(data.players) || parseInt(data.clients) || 0;
+            maxPlayers = parseInt(data.maxPlayers) || parseInt(data.sv_maxclients) || 128;
         }
         
         console.log(`👥 Players: ${playerCount}/${maxPlayers}`);
         
+        // Update the display with the fetched data
         updatePlayerDisplay(playerCount, maxPlayers);
         updateServerStatus(true);
         
@@ -79,33 +110,41 @@ async function fetchPlayerCount() {
         console.log('   3. CORS policy blocking the request');
         console.log('   4. Incorrect IP or CFX code');
         console.log('');
-        console.log('🔧 To fix:');
-        console.log('   - Verify server is listed: https://servers.fivem.net/');
-        console.log('   - Check IP in console: ' + CONFIG.serverIP);
-        console.log('   - Check CFX code: ' + CONFIG.cfxServerCode);
-        console.log('   - Or enable manual mode in CONFIG');
+        console.log('🔧 Solutions:');
+        console.log('   - Verify server is listed at: https://servers.fivem.net/');
+        console.log('   - Current IP in config: ' + CONFIG.serverIP);
+        console.log('   - Current CFX code: ' + CONFIG.cfxServerCode);
+        console.log('   - Enable manual mode by setting CONFIG.manualMode = true');
+        console.log('');
+        console.log('💡 Quick Fix: Enable manual mode in the CONFIG section at the top of main.js');
+        console.log('   Set manualMode: true and update manualPlayerCount to your desired value');
         
+        // Show loading state instead of showing as offline immediately
         updatePlayerDisplay('---', '128');
         updateServerStatus(false);
         
-        // Try to show a helpful message to users
         showDebugInfo();
     }
 }
 
 function showDebugInfo() {
-    // Only show in console, not to end users
     console.log('');
-    console.log('📝 Debug Info:');
+    console.log('📝 Debug Information:');
+    console.log('=====================================');
     console.log('Server IP:', CONFIG.serverIP);
     console.log('CFX Code:', CONFIG.cfxServerCode);
-    console.log('Test URL:', `https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`);
     console.log('');
-    console.log('💡 You can test the API directly by pasting this URL in your browser:');
-    console.log(`https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`);
+    console.log('Test URLs (paste in browser to test):');
+    console.log(`1. https://servers-frontend.fivem.net/api/servers/single/${CONFIG.cfxServerCode}`);
+    console.log(`2. https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`);
+    console.log('');
+    console.log('If none of these work, your server might not be publicly listed.');
+    console.log('Enable manual mode to display static player counts.');
+    console.log('=====================================');
 }
 
 function updatePlayerDisplay(current, max) {
+    // Update all player count elements
     const playerCountElements = document.querySelectorAll('#playerCount');
     const playerCount2Element = document.getElementById('playerCount2');
     const maxPlayersElement = document.getElementById('maxPlayers');
@@ -124,28 +163,55 @@ function updatePlayerDisplay(current, max) {
         maxPlayersElement.textContent = max;
     }
     
-    // Update players widget
+    // Update the widget with animated number display
     const widgetCount = document.querySelector('.widget-count');
-    if (widgetCount) {
+    if (widgetCount && current !== '---') {
         const currentStr = current.toString().padStart(3, '0');
         const digits = currentStr.split('');
         widgetCount.innerHTML = digits.map(digit => 
             `<span class="count-separator">${digit}</span>`
         ).join('');
+    } else if (widgetCount) {
+        // Show dashes if offline or loading
+        widgetCount.innerHTML = `
+            <span class="count-separator">-</span>
+            <span class="count-separator">-</span>
+            <span class="count-separator">-</span>
+        `;
     }
 }
 
 function updateServerStatus(isOnline) {
+    // Update all status indicators
     const statusElements = document.querySelectorAll('.status-online');
+    const heroBadge = document.querySelector('.hero-badge');
+    
     statusElements.forEach(element => {
         if (isOnline) {
             element.innerHTML = '<span class="status-dot"></span>Online';
             element.style.color = 'var(--red-light)';
+            element.classList.remove('status-offline');
         } else {
             element.innerHTML = '<span class="status-dot" style="background: #6b6b6b;"></span>Offline';
             element.style.color = 'var(--text-muted)';
+            element.classList.add('status-offline');
         }
     });
+    
+    // Update hero badge
+    if (heroBadge) {
+        const badgeText = heroBadge.querySelector('span:last-child');
+        if (badgeText) {
+            badgeText.textContent = isOnline ? 'SERWER ONLINE' : 'SERWER OFFLINE';
+        }
+        
+        const statusDot = heroBadge.querySelector('.status-dot');
+        if (statusDot && !isOnline) {
+            statusDot.style.background = '#6b6b6b';
+        } else if (statusDot) {
+            statusDot.style.background = '';
+        }
+    }
 }
 
 // ========================================
@@ -441,6 +507,9 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('%c🚀 Regnum Roleplay', 'color: #fa4953; font-size: 24px; font-weight: bold;');
     console.log('%cWitaj w konsoli developera!', 'color: #b40c1b; font-size: 14px;');
     console.log('%cJeśli widzisz jakieś błędy, zgłoś je na Discord!', 'color: #b8b8b8; font-size: 12px;');
+    console.log('');
+    console.log('%c💡 Wskazówka: Jeśli licznik graczy nie działa, sprawdź instrukcje w konsoli poniżej', 'color: #ffa500; font-size: 12px;');
+    console.log('');
     
     // Initialize all features
     initNavigation();
