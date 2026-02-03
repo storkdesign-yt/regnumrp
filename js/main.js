@@ -4,16 +4,21 @@
 
 const CONFIG = {
     // Replace with your actual FiveM server IP:PORT
-    serverIP: '83.168.105.17:30120',
+    serverIP: '83.168.105.17:40120',
     
     // CFX.re server code (if using cfx.re/join/yourcode)
     cfxServerCode: 'dmakaq',
     
     // Update interval for player count (in milliseconds)
-    updateInterval: 10000, // 30 seconds
+    updateInterval: 30000, // 30 seconds
     
     // Discord invite link
     discordInvite: 'https://discord.gg/regnumrp',
+    
+    // MANUAL MODE: If API doesn't work, set this to true and manually update counts below
+    manualMode: false,
+    manualPlayerCount: 45,
+    manualMaxPlayers: 128,
 };
 
 // ========================================
@@ -21,25 +26,83 @@ const CONFIG = {
 // ========================================
 
 async function fetchPlayerCount() {
+    // Check if manual mode is enabled
+    if (CONFIG.manualMode) {
+        console.log('📝 Manual mode enabled');
+        updatePlayerDisplay(CONFIG.manualPlayerCount, CONFIG.manualMaxPlayers);
+        updateServerStatus(true);
+        return;
+    }
+    
+    console.log('🔄 Fetching player count...');
+    
     try {
-        // FiveM API endpoint for server info
-        const response = await fetch(`https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`);
+        // Method 1: Try direct FiveM API with IP:PORT
+        console.log(`Trying: https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`);
+        let response = await fetch(`https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`);
         
         if (!response.ok) {
-            throw new Error('Server not found');
+            // Method 2: Try with CFX code
+            console.log('Method 1 failed, trying CFX code...');
+            response = await fetch(`https://servers-frontend.fivem.net/api/servers/single/cfx.re/join/${CONFIG.cfxServerCode}`);
+        }
+        
+        if (!response.ok) {
+            throw new Error('Server not found in FiveM list');
         }
         
         const data = await response.json();
-        const playerCount = data.Data.clients || 0;
-        const maxPlayers = data.Data.sv_maxclients || 128;
+        console.log('✅ Server data received:', data);
+        
+        // Parse player data - try multiple possible locations
+        let playerCount = 0;
+        let maxPlayers = 128;
+        
+        if (data.Data) {
+            playerCount = data.Data.clients || data.Data.players || 0;
+            maxPlayers = data.Data.sv_maxclients || data.Data.svMaxclients || 128;
+        } else if (data.players !== undefined) {
+            playerCount = data.players;
+            maxPlayers = data.maxPlayers || 128;
+        }
+        
+        console.log(`👥 Players: ${playerCount}/${maxPlayers}`);
         
         updatePlayerDisplay(playerCount, maxPlayers);
         updateServerStatus(true);
+        
     } catch (error) {
-        console.error('Error fetching player count:', error);
+        console.error('❌ Error fetching player count:', error);
+        console.log('⚠️ Possible reasons:');
+        console.log('   1. Server not publicly listed on FiveM');
+        console.log('   2. Server is offline');
+        console.log('   3. CORS policy blocking the request');
+        console.log('   4. Incorrect IP or CFX code');
+        console.log('');
+        console.log('🔧 To fix:');
+        console.log('   - Verify server is listed: https://servers.fivem.net/');
+        console.log('   - Check IP in console: ' + CONFIG.serverIP);
+        console.log('   - Check CFX code: ' + CONFIG.cfxServerCode);
+        console.log('   - Or enable manual mode in CONFIG');
+        
         updatePlayerDisplay('---', '128');
         updateServerStatus(false);
+        
+        // Try to show a helpful message to users
+        showDebugInfo();
     }
+}
+
+function showDebugInfo() {
+    // Only show in console, not to end users
+    console.log('');
+    console.log('📝 Debug Info:');
+    console.log('Server IP:', CONFIG.serverIP);
+    console.log('CFX Code:', CONFIG.cfxServerCode);
+    console.log('Test URL:', `https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`);
+    console.log('');
+    console.log('💡 You can test the API directly by pasting this URL in your browser:');
+    console.log(`https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`);
 }
 
 function updatePlayerDisplay(current, max) {
