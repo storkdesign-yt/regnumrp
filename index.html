@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Regnum - Najlepszy serwer FiveM Roleplay. Dołącz do społeczności i przeżyj niesamowitą przygodę!">
+    <title>Regnum RP - FiveM Roleplay Server</title>
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+</head>
+<body>
+    <!-- Background Effects -->
+    <div class="bg-effects">
+        <div class="grid-overlay"></div>
+        <div class="glow-orb orb-1"></div>
+        <div class="glow-orb orb-2"></div>
+        <div class="glow-orb orb-3"></div>
+    </div>
+
+    <!-- Navigation -->
+    <header id="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <a href="#" class="logo">
+                    <span class="logo-text">REGNUM</span>
+                    <span class="logo-subtitle">ROLEPLAY</span>
+                </a>
+                
+                <ul class="nav-menu">
+                    <li><a href="#home" class="nav-link active">Start</a></li>
+                    <li><a href="#about" class="nav-link">O Serwerze</a></li>
+                    <li><a href="#features" class="nav-link">Funkcje</a></li>
+                    <li><a href="#staff" class="nav-link">Administracja</a></li>
+                    <li><a href="#connect" class="nav-link">Jak dołączyć</a></li>
+                </ul>
+
+                <div class="nav-actions">
+                    <a href="#" class="btn btn-outline">Discord</a>
+                    <a href="#" class="btn btn-primary">Zagraj teraz</a>
+                </div>
+
+                <button class="mobile-menu-toggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="status-dot"></span>
+                <span>SERWER ONLINE</span>
+            </div>
+            
+            <h1 class="hero-title">
+                <span class="title-line">WITAJ W</span>
+                <span class="title-main">REGNUM</span>
+                <span class="title-line">ROLEPLAY</span>
+            </h1>
+            
+            <p class="hero-description">
+                Zanurz się w najbardziej immersywnym doświadczeniu FiveM RP.<br>
+                Twórz swoją historię, rozwijaj postać, buduj imperium.
+            </p>
+
+            <div class="hero-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="playerCount">---</div>
+                        <div class="stat-label">Graczy Online</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🎮</div>
+                    <div class="stat-info">
+                        <div class="stat-value" id="maxPlayers">128</div>
+                        <div class="stat-label">Maksymalnie</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🏆</div>
+                    <div class="stat-info">
+                        <div class="stat-value">5000+</div>
+                        <div class="stat-label">Członków Discord</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-actions">
+                <button class="btn btn-large btn-primary" onclick="connectToServer()">
+                    <span>Połącz się teraz</span>
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                        <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="btn btn-large btn-outline" onclick="scrollToSection('about')">
+                    Dowiedz się więcej
+                </button>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <span>Przewiń w dół</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Kim jesteśmy</span>
+                <h2 class="section-title">O serwerze Regnum</h2>
+                <p class="section-description">
+                    Regnum to więcej niż serwer - to społeczność graczy pasjonatów roleplay
+                </p>
+            </div>
+
+            <div class="about-content">
+                <div class="about-card">
+                    <div class="card-number">01</div>
+                    <h3>Realistyczny Roleplay</h3>
+                    <p>Immersywne doświadczenie z zaawansowanymi systemami ekonomii, pracy i interakcji społecznych.</p>
+                </div>
+                <div class="about-card">
+                    <div class="card-number">02</div>
+                    <h3>Przyjazna Społeczność</h3>
+                    <p>Tysiące aktywnych graczy, pomocna administracja i atmosfera sprzyjająca rozwojowi każdego gracza.</p>
+                </div>
+                <div class="about-card">
+                    <div class="card-number">03</div>
+                    <h3>Stałe Aktualizacje</h3>
+                    <p>Regularnie dodajemy nowe funkcje, lokacje i możliwości rozgrywki. Serwer się nieustannie rozwija.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Co oferujemy</span>
+                <h2 class="section-title">Funkcje serwera</h2>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🚓</div>
+                    <h3>System Frakcyjny</h3>
+                    <p>Dołącz do Policji, EMS, Gangu lub załóż własną organizację przestępczą</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3>Różnorodne Prace</h3>
+                    <p>Od kierowcy taksówki po właściciela biznesu - wybór należy do Ciebie</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏪</div>
+                    <h3>Własne Biznesy</h3>
+                    <p>Kup, rozwijaj i zarządzaj swoimi przedsiębiorstwami</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🚗</div>
+                    <h3>Ponad 500 Pojazdów</h3>
+                    <p>Ogromna kolekcja pojazdów - od codziennych aut po luksusowe supersamochody</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🏠</div>
+                    <h3>System Mieszkań</h3>
+                    <p>Kup własny dom lub mieszkanie i urządź je według swojego gustu</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Optymalizacja</h3>
+                    <p>Płynna rozgrywka nawet na słabszych komputerach dzięki zaawansowanej optymalizacji</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Staff Section -->
+    <section id="staff" class="staff">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-label">Nasz zespół</span>
+                <h2 class="section-title">Administracja</h2>
+                <p class="section-description">
+                    Poznaj zespół, który dba o Twoje doświadczenie na serwerze
+                </p>
+            </div>
+
+            <div class="staff-grid">
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        <div class="avatar-placeholder">👑</div>
+                    </div>
+                    <h3>Właściciel</h3>
+                    <p class="staff-role">Founder & Developer</p>
+                    <div class="staff-social">
+                        <a href="#" class="social-link">Discord</a>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        <div class="avatar-placeholder">⭐</div>
+                    </div>
+                    <h3>Head Admin</h3>
+                    <p class="staff-role">Główny Administrator</p>
+                    <div class="staff-social">
+                        <a href="#" class="social-link">Discord</a>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        <div class="avatar-placeholder">💎</div>
+                    </div>
+                    <h3>Developer</h3>
+                    <p class="staff-role">Główny Programista</p>
+                    <div class="staff-social">
+                        <a href="#" class="social-link">Discord</a>
+                    </div>
+                </div>
+                <div class="staff-card">
+                    <div class="staff-avatar">
+                        <div class="avatar-placeholder">🛡️</div>
+                    </div>
+                    <h3>Moderator</h3>
+                    <p class="staff-role">Zespół Moderacji</p>
+                    <div class="staff-social">
+                        <a href="#" class="social-link">Discord</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Connect Section -->
+    <section id="connect" class="connect">
+        <div class="container">
+            <div class="connect-content">
+                <div class="connect-info">
+                    <span class="section-label">Gotowy na przygodę?</span>
+                    <h2 class="section-title">Jak dołączyć</h2>
+                    <p class="connect-description">
+                        Dołączenie do Regnum RP jest proste i zajmuje tylko kilka minut
+                    </p>
+
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Dołącz na Discord</h4>
+                                <p>Wejdź na nasz serwer Discord i zapoznaj się z regulaminem</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Wypełnij Whitelist</h4>
+                                <p>Wypełnij krótki formularz whitelist aby uzyskać dostęp</p>
+                            </div>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Połącz się z serwerem</h4>
+                                <p>Użyj IP serwera w FiveM i rozpocznij swoją przygodę!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="connect-card">
+                    <h3>Informacje o serwerze</h3>
+                    <div class="server-info">
+                        <div class="info-row">
+                            <span class="info-label">IP Serwera:</span>
+                            <span class="info-value">connect cfx.re/join/yourserver</span>
+                            <button class="copy-btn" onclick="copyServerIP()">Kopiuj</button>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Status:</span>
+                            <span class="info-value status-online">
+                                <span class="status-dot"></span>
+                                Online
+                            </span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Gracze:</span>
+                            <span class="info-value" id="playerCount2">--- / 128</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="info-label">Discord:</span>
+                            <a href="#" class="info-value info-link">discord.gg/regnum</a>
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary btn-block" onclick="connectToServer()">
+                        Połącz się teraz
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <span class="logo-text">REGNUM</span>
+                        <span class="logo-subtitle">ROLEPLAY</span>
+                    </div>
+                    <p>Najlepszy serwer FiveM Roleplay w Polsce</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Serwer</h4>
+                        <a href="#">Regulamin</a>
+                        <a href="#">Whitelist</a>
+                        <a href="#">Forum</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Społeczność</h4>
+                        <a href="#">Discord</a>
+                        <a href="#">Facebook</a>
+                        <a href="#">TikTok</a>
+                    </div>
+                    <div class="footer-column">
+                        <h4>Wsparcie</h4>
+                        <a href="#">Sklep</a>
+                        <a href="#">Kontakt</a>
+                        <a href="#">FAQ</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Regnum Roleplay. Wszystkie prawa zastrzeżone.</p>
+                <p class="footer-disclaimer">Ten projekt nie jest powiązany z Rockstar Games ani Take-Two Interactive</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>
