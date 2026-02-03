@@ -3,19 +3,10 @@
 // ========================================
 
 const CONFIG = {
-    // Replace with your actual FiveM server IP:PORT
     serverIP: '83.168.105.17:30120',
-    
-    // CFX.re server code (if using cfx.re/join/yourcode)
     cfxServerCode: 'dmakaq',
-    
-    // Update interval for player count (in milliseconds)
-    updateInterval: 10000, // 10 seconds
-    
-    // Discord invite link
+    updateInterval: 10000,
     discordInvite: 'https://discord.gg/regnumrp',
-    
-    // MANUAL MODE: If API doesn't work, set this to true and manually update counts below
     manualMode: false,
     manualPlayerCount: 45,
     manualMaxPlayers: 128,
@@ -26,7 +17,6 @@ const CONFIG = {
 // ========================================
 
 async function fetchPlayerCount() {
-    // Check if manual mode is enabled
     if (CONFIG.manualMode) {
         console.log('📝 Manual mode enabled');
         updatePlayerDisplay(CONFIG.manualPlayerCount, CONFIG.manualMaxPlayers);
@@ -37,9 +27,7 @@ async function fetchPlayerCount() {
     console.log('🔄 Fetching player count...');
     
     try {
-        // Try the CFX endpoint
         const endpoint = `https://servers-frontend.fivem.net/api/servers/single/${CONFIG.cfxServerCode}`;
-        
         console.log(`Trying: ${endpoint}`);
         const response = await fetch(endpoint);
         
@@ -50,47 +38,27 @@ async function fetchPlayerCount() {
         const data = await response.json();
         console.log('✅ Server data received:', data);
         
-        // Parse player data from the API response
         let playerCount = 0;
         let maxPlayers = 128;
         
-        // The FiveM API returns data in the 'Data' object
         if (data && data.Data) {
-            // Get current player count
             playerCount = parseInt(data.Data.clients) || 
                          parseInt(data.Data.selfReportedClients) || 
                          parseInt(data.Data.players) || 0;
             
-            // Get max players - check both possible field names
             maxPlayers = parseInt(data.Data.sv_maxclients) || 
                         parseInt(data.Data.svMaxclients) || 128;
         }
         
         console.log(`👥 Players: ${playerCount}/${maxPlayers}`);
         
-        // Update the display with the fetched data
         updatePlayerDisplay(playerCount, maxPlayers);
         updateServerStatus(true);
         
     } catch (error) {
         console.error('❌ Error fetching player count:', error);
-        console.log('⚠️ Possible reasons:');
-        console.log('   1. Server not publicly listed on FiveM');
-        console.log('   2. Server is offline');
-        console.log('   3. CORS policy blocking the request');
-        console.log('   4. Incorrect CFX code');
-        console.log('');
-        console.log('🔧 Current Configuration:');
-        console.log('   - Server IP: ' + CONFIG.serverIP);
-        console.log('   - CFX Code: ' + CONFIG.cfxServerCode);
-        console.log('');
-        console.log('💡 Quick Fix: Enable manual mode in the CONFIG section');
-        console.log('   Set manualMode: true and update manualPlayerCount');
-        
-        // Show loading state
         updatePlayerDisplay('---', '128');
         updateServerStatus(false);
-        
         showDebugInfo();
     }
 }
@@ -101,24 +69,17 @@ function showDebugInfo() {
     console.log('=====================================');
     console.log('Server IP:', CONFIG.serverIP);
     console.log('CFX Code:', CONFIG.cfxServerCode);
-    console.log('');
-    console.log('Test URL (paste in browser to test):');
-    console.log(`https://servers-frontend.fivem.net/api/servers/single/${CONFIG.cfxServerCode}`);
-    console.log('');
-    console.log('If this doesn\'t work, enable manual mode.');
+    console.log(`Test URL: https://servers-frontend.fivem.net/api/servers/single/${CONFIG.cfxServerCode}`);
     console.log('=====================================');
 }
 
 function updatePlayerDisplay(current, max) {
-    // Update all player count elements
     const playerCountElements = document.querySelectorAll('#playerCount');
     const playerCount2Element = document.getElementById('playerCount2');
     const maxPlayersElement = document.getElementById('maxPlayers');
     
     playerCountElements.forEach(element => {
-        if (element) {
-            element.textContent = current;
-        }
+        if (element) element.textContent = current;
     });
     
     if (playerCount2Element) {
@@ -128,27 +89,9 @@ function updatePlayerDisplay(current, max) {
     if (maxPlayersElement) {
         maxPlayersElement.textContent = max;
     }
-    
-    // Update the widget with animated number display
-    const widgetCount = document.querySelector('.widget-count');
-    if (widgetCount && current !== '---') {
-        const currentStr = current.toString().padStart(3, '0');
-        const digits = currentStr.split('');
-        widgetCount.innerHTML = digits.map(digit => 
-            `<span class="count-separator">${digit}</span>`
-        ).join('');
-    } else if (widgetCount) {
-        // Show dashes if offline or loading
-        widgetCount.innerHTML = `
-            <span class="count-separator">-</span>
-            <span class="count-separator">-</span>
-            <span class="count-separator">-</span>
-        `;
-    }
 }
 
 function updateServerStatus(isOnline) {
-    // Update all status indicators
     const statusElements = document.querySelectorAll('.status-online');
     const heroBadge = document.querySelector('.hero-badge');
     
@@ -163,21 +106,6 @@ function updateServerStatus(isOnline) {
             element.classList.add('status-offline');
         }
     });
-    
-    // Update hero badge
-    if (heroBadge) {
-        const badgeText = heroBadge.querySelector('span:last-child');
-        if (badgeText) {
-            badgeText.textContent = isOnline ? 'SERWER ONLINE' : 'SERWER OFFLINE';
-        }
-        
-        const statusDot = heroBadge.querySelector('.status-dot');
-        if (statusDot && !isOnline) {
-            statusDot.style.background = '#6b6b6b';
-        } else if (statusDot) {
-            statusDot.style.background = '';
-        }
-    }
 }
 
 // ========================================
@@ -190,8 +118,6 @@ function initNavigation() {
     const navMenu = document.querySelector('.nav-menu');
     const navLinks = document.querySelectorAll('.nav-link');
     
-    // Scroll effect for header
-    let lastScroll = 0;
     window.addEventListener('scroll', () => {
         const currentScroll = window.pageYOffset;
         
@@ -200,11 +126,8 @@ function initNavigation() {
         } else {
             header.classList.remove('scrolled');
         }
-        
-        lastScroll = currentScroll;
     });
     
-    // Mobile menu toggle
     if (mobileToggle) {
         mobileToggle.addEventListener('click', () => {
             mobileToggle.classList.toggle('active');
@@ -213,7 +136,6 @@ function initNavigation() {
         });
     }
     
-    // Close mobile menu on link click
     navLinks.forEach(link => {
         link.addEventListener('click', () => {
             if (window.innerWidth <= 1024) {
@@ -224,7 +146,6 @@ function initNavigation() {
         });
     });
     
-    // Active link on scroll
     const sections = document.querySelectorAll('section[id]');
     
     window.addEventListener('scroll', () => {
@@ -291,13 +212,8 @@ function scrollToSection(sectionId) {
 // ========================================
 
 function connectToServer() {
-    // Method 1: Using cfx.re join link (recommended)
     window.location.href = `fivem://connect/cfx.re/join/${CONFIG.cfxServerCode}`;
     
-    // Method 2: Direct IP connection (alternative)
-    // window.location.href = `fivem://connect/${CONFIG.serverIP}`;
-    
-    // Fallback: Show instructions
     setTimeout(() => {
         alert(`Aby dołączyć do serwera:\n\n1. Uruchom FiveM\n2. Naciśnij F8 i wpisz: connect cfx.re/join/${CONFIG.cfxServerCode}\n\nLub wejdź przez:\n${CONFIG.discordInvite}`);
     }, 1000);
@@ -310,7 +226,6 @@ function connectToServer() {
 function copyServerIP() {
     const serverIP = `connect cfx.re/join/${CONFIG.cfxServerCode}`;
     
-    // Create temporary textarea to copy text
     const textarea = document.createElement('textarea');
     textarea.value = serverIP;
     textarea.style.position = 'fixed';
@@ -361,29 +276,15 @@ function showNotification(message, type = 'info') {
     }, 3000);
 }
 
-// Add animation styles
 const style = document.createElement('style');
 style.textContent = `
     @keyframes slideIn {
-        from {
-            transform: translateX(400px);
-            opacity: 0;
-        }
-        to {
-            transform: translateX(0);
-            opacity: 1;
-        }
+        from { transform: translateX(400px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
     }
-    
     @keyframes slideOut {
-        from {
-            transform: translateX(0);
-            opacity: 1;
-        }
-        to {
-            transform: translateX(400px);
-            opacity: 0;
-        }
+        from { transform: translateX(0); opacity: 1; }
+        to { transform: translateX(400px); opacity: 0; }
     }
 `;
 document.head.appendChild(style);
@@ -407,7 +308,6 @@ function initScrollAnimations() {
         });
     }, observerOptions);
     
-    // Observe all cards
     const cards = document.querySelectorAll('.about-card, .feature-card, .staff-card, .stat-card');
     cards.forEach((card, index) => {
         card.style.opacity = '0';
@@ -416,21 +316,7 @@ function initScrollAnimations() {
     });
 }
 
-// ========================================
-// Discord Widget (Optional)
-// ========================================
-
-function loadDiscordWidget() {
-    // You can add Discord widget here if needed
-    // Example: https://discord.com/widget?id=YOUR_SERVER_ID&theme=dark
-}
-
-// ========================================
-// Performance Optimization
-// ========================================
-
 function optimizePerformance() {
-    // Lazy load images
     const images = document.querySelectorAll('img[data-src]');
     const imageObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -446,10 +332,6 @@ function optimizePerformance() {
     images.forEach(img => imageObserver.observe(img));
 }
 
-// ========================================
-// Easter Eggs & Fun Features
-// ========================================
-
 function initEasterEggs() {
     let konamiCode = [];
     const konamiPattern = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
@@ -460,7 +342,6 @@ function initEasterEggs() {
         
         if (konamiCode.join('') === konamiPattern.join('')) {
             showNotification('🎮 Gratulacje! Odkryłeś sekretny kod!', 'success');
-            document.body.style.animation = 'rainbow 2s linear';
         }
     });
 }
@@ -472,23 +353,16 @@ function initEasterEggs() {
 document.addEventListener('DOMContentLoaded', () => {
     console.log('%c🚀 Regnum Roleplay', 'color: #fa4953; font-size: 24px; font-weight: bold;');
     console.log('%cWitaj w konsoli developera!', 'color: #b40c1b; font-size: 14px;');
-    console.log('%cJeśli widzisz jakieś błędy, zgłoś je na Discord!', 'color: #b8b8b8; font-size: 12px;');
-    console.log('');
-    console.log('%c💡 Wskazówka: Jeśli licznik graczy nie działa, sprawdź instrukcje w konsoli poniżej', 'color: #ffa500; font-size: 12px;');
-    console.log('');
     
-    // Initialize all features
     initNavigation();
     initSmoothScrolling();
     initScrollAnimations();
     optimizePerformance();
     initEasterEggs();
     
-    // Fetch player count immediately and then at intervals
     fetchPlayerCount();
     setInterval(fetchPlayerCount, CONFIG.updateInterval);
     
-    // Update copyright year
     const currentYear = new Date().getFullYear();
     document.querySelectorAll('.footer-bottom p').forEach(p => {
         if (p.textContent.includes('2024')) {
@@ -497,27 +371,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// ========================================
-// Export functions for global use
-// ========================================
-
 window.scrollToSection = scrollToSection;
 window.connectToServer = connectToServer;
 window.copyServerIP = copyServerIP;
+
 // ========================================
 // Podania (Applications) System
 // ========================================
 
-// Google Forms URLs - Replace with your actual form URLs
+// IMPORTANT: Use formResponse endpoint instead of viewform
 const GOOGLE_FORMS = {
-    'dzialalnosc': 'https://forms.gle/Ao7XL8Kn251ZCYbH9',
+    'dzialalnosc': 'https://docs.google.com/forms/d/e/1FAIpQLScA0eDO-_EIxyBlq9QC9aF3yzYIERgIs4wxTQLer89MUz0bQQ/formResponse',
     'organizacja': 'https://forms.gle/bpjEvo32878bxrP47',
     'peda': 'https://forms.gle/mwh3Xd9r3mFnaiNj7',
     'trial-support': 'https://forms.gle/5FHvgrVaGBxEKkJW9',
     'trial-recruiter': 'https://forms.gle/TnHRBHrWcJxeL2Rg6'
 };
 
-// Form configurations
 const FORM_CONFIGS = {
     'dzialalnosc': {
         title: 'Podanie o działalność',
@@ -526,16 +396,28 @@ const FORM_CONFIGS = {
             { name: 'entry.1392446209', label: 'Imię', type: 'text', required: true },
             { name: 'entry.184294948', label: 'Wiek', type: 'text', required: true },
             { name: 'entry.437894828', label: 'Discord ID', type: 'text', required: true },
-            { name: 'entry.127153598', label: 'Czy zapoznałeś się informacją oraz wytycznymi co do działalności zawartej w ogłoszeniu oraz ją akceptujesz?', type: 'select', required: true, options: ['Tak', 'Nie'] },
-            { name: 'entry.532684954', label: 'Czy zapoznałeś się z obowiązującym regulaminem firm oraz z wymogami?', type: 'select', required: true, options: ['Tak', 'Nie'] },
-            { name: 'entry.2069942877', label: 'Nazwa Firmy', type: 'textarea', required: true },
+            { 
+                name: 'entry.127153598', 
+                label: 'Czy zapoznałeś się z informacją oraz wytycznymi co do działalności?', 
+                type: 'select', 
+                required: true, 
+                options: ['Tak', 'Nie'] 
+            },
+            { 
+                name: 'entry.532684954', 
+                label: 'Czy zapoznałeś się z obowiązującym regulaminem firm?', 
+                type: 'select', 
+                required: true, 
+                options: ['Tak', 'Nie'] 
+            },
+            { name: 'entry.2069942877', label: 'Nazwa Firmy', type: 'text', required: true },
             { name: 'entry.182995140', label: 'Jaki jest zamysł twojej firmy?', type: 'textarea', required: true },
-            { name: 'entry.636871358', label: 'Co twoja firma wniesie na serwer', type: 'textarea', required: true },
+            { name: 'entry.636871358', label: 'Co twoja firma wniesie na serwer?', type: 'textarea', required: true },
             { name: 'entry.411116480', label: 'Lokalizacja Firmy', type: 'textarea', required: true },
-            { name: 'entry.1714576130', label: 'W jaki sposób twoja firma będzie zarabiać', type: 'textarea', required: true },
+            { name: 'entry.1714576130', label: 'W jaki sposób twoja firma będzie zarabiać?', type: 'textarea', required: true },
             { name: 'entry.1033141881', label: 'Opisz swoją aktualną odgrywaną postać', type: 'textarea', required: true },
             { name: 'entry.1270000745', label: 'Dlaczego to właśnie ty powinieneś/aś dostać firmę?', type: 'textarea', required: true },
-            { name: 'entry.1979208409', label: 'Jakie są twoje zainteresowania [OOC]', type: 'textarea', required: true },
+            { name: 'entry.1979208409', label: 'Jakie są twoje zainteresowania [OOC]?', type: 'textarea', required: true },
             { name: 'entry.673989797', label: 'Dlaczego uważasz, że taka firma byłaby pożądana u graczy?', type: 'textarea', required: true },
             { name: 'entry.1368237543', label: 'Czy masz doświadczenie z zarządzaniem? [OOC]', type: 'textarea', required: true },
         ]
@@ -546,11 +428,6 @@ const FORM_CONFIGS = {
         fields: [
             { name: 'entry.123456789', label: 'Nick w grze', type: 'text', required: true },
             { name: 'entry.987654321', label: 'Discord', type: 'text', required: true },
-            { name: 'entry.111111111', label: 'Nazwa organizacji/gangu', type: 'text', required: true },
-            { name: 'entry.222222222', label: 'Typ organizacji', type: 'select', required: true, options: ['Gang uliczny', 'Gang motocyklowy', 'Organizacja kryminalna', 'Legalna organizacja'] },
-            { name: 'entry.333333333', label: 'Historia organizacji', type: 'textarea', required: true, helper: 'Opisz historię i tło organizacji' },
-            { name: 'entry.444444444', label: 'Struktura i cele', type: 'textarea', required: true, helper: 'Opisz strukturę organizacji i jej główne cele' },
-            { name: 'entry.555555555', label: 'Oczekiwana liczba członków', type: 'number', required: true },
         ]
     },
     'peda': {
@@ -558,11 +435,6 @@ const FORM_CONFIGS = {
         description: 'Złóż podanie o unikalnego peda dla swojej postaci',
         fields: [
             { name: 'entry.123456789', label: 'Nick w grze', type: 'text', required: true },
-            { name: 'entry.987654321', label: 'Discord', type: 'text', required: true },
-            { name: 'entry.111111111', label: 'Nazwa peda', type: 'text', required: true },
-            { name: 'entry.222222222', label: 'Link do peda', type: 'url', required: true, helper: 'Link do modelu peda (np. GTA5-Mods.com)' },
-            { name: 'entry.333333333', label: 'Powód wniosku', type: 'textarea', required: true, helper: 'Dlaczego potrzebujesz tego peda do swojej postaci?' },
-            { name: 'entry.444444444', label: 'Opis postaci', type: 'textarea', required: true, helper: 'Opisz swoją postać i jak ten ped wpasuje się w jej historię' },
         ]
     },
     'trial-support': {
@@ -570,12 +442,6 @@ const FORM_CONFIGS = {
         description: 'Aplikuj na stanowisko Trial Supporta',
         fields: [
             { name: 'entry.123456789', label: 'Nick w grze', type: 'text', required: true },
-            { name: 'entry.987654321', label: 'Discord', type: 'text', required: true },
-            { name: 'entry.111111111', label: 'Wiek', type: 'number', required: true },
-            { name: 'entry.222222222', label: 'Doświadczenie na serwerze', type: 'textarea', required: true, helper: 'Opisz swoje doświadczenie na serwerze Regnum' },
-            { name: 'entry.333333333', label: 'Dostępność', type: 'textarea', required: true, helper: 'Ile godzin dziennie możesz poświęcić na pomoc graczom?' },
-            { name: 'entry.444444444', label: 'Dlaczego chcesz zostać supportem?', type: 'textarea', required: true },
-            { name: 'entry.555555555', label: 'Jak pomogłbyś społeczności?', type: 'textarea', required: true },
         ]
     },
     'trial-recruiter': {
@@ -583,12 +449,6 @@ const FORM_CONFIGS = {
         description: 'Aplikuj na stanowisko Trial Recruitera',
         fields: [
             { name: 'entry.123456789', label: 'Nick w grze', type: 'text', required: true },
-            { name: 'entry.987654321', label: 'Discord', type: 'text', required: true },
-            { name: 'entry.111111111', label: 'Wiek', type: 'number', required: true },
-            { name: 'entry.222222222', label: 'Doświadczenie w rekrutacji', type: 'textarea', required: true, helper: 'Opisz swoje doświadczenie w rekrutacji lub szkoleniu nowych graczy' },
-            { name: 'entry.333333333', label: 'Dostępność', type: 'textarea', required: true, helper: 'Ile godzin dziennie możesz poświęcić na rekrutację?' },
-            { name: 'entry.444444444', label: 'Dlaczego chcesz zostać rekruterem?', type: 'textarea', required: true },
-            { name: 'entry.555555555', label: 'Jak poprawisz proces whitelistowania?', type: 'textarea', required: true },
         ]
     }
 };
@@ -611,7 +471,6 @@ function closePodaniaModal() {
     modal.classList.remove('active');
     document.body.style.overflow = '';
     
-    // Reset form after a delay
     setTimeout(() => {
         backToSelection();
     }, 300);
@@ -627,11 +486,9 @@ function selectApplicationType(type) {
     const formDescription = document.getElementById('formDescription');
     const form = document.getElementById('applicationForm');
     
-    // Update title and description
     formTitle.textContent = config.title;
     formDescription.textContent = config.description;
     
-    // Build form
     form.innerHTML = '';
     
     config.fields.forEach(field => {
@@ -685,17 +542,14 @@ function selectApplicationType(type) {
         form.appendChild(formGroup);
     });
     
-    // Add submit button
     const submitBtn = document.createElement('button');
     submitBtn.type = 'submit';
     submitBtn.className = 'form-submit';
     submitBtn.textContent = 'Wyślij podanie';
     form.appendChild(submitBtn);
     
-    // Add form submit handler
     form.onsubmit = handleFormSubmit;
     
-    // Show form, hide selection
     selectionDiv.style.display = 'none';
     formContainer.style.display = 'block';
 }
@@ -716,26 +570,32 @@ function handleFormSubmit(e) {
     
     if (!currentFormType) return;
     
+    const submitButton = e.target.querySelector('.form-submit');
+    submitButton.disabled = true;
+    submitButton.textContent = 'Wysyłanie...';
+    
     const formData = new FormData(e.target);
     const googleFormUrl = GOOGLE_FORMS[currentFormType];
     
-    // Build the Google Form submission URL
-    const params = new URLSearchParams();
-    for (let [key, value] of formData.entries()) {
-        params.append(key, value);
-    }
+    console.log('Submitting to:', googleFormUrl);
     
-    // Create hidden iframe for form submission
     const iframe = document.createElement('iframe');
-    iframe.name = 'hidden_iframe';
+    iframe.name = 'hidden_iframe_' + Date.now();
     iframe.style.display = 'none';
+    iframe.onload = function() {
+        console.log('Form submitted!');
+        setTimeout(() => {
+            showSuccessMessage();
+            if (iframe.parentNode) document.body.removeChild(iframe);
+        }, 500);
+    };
+    
     document.body.appendChild(iframe);
     
-    // Create temporary form
     const tempForm = document.createElement('form');
     tempForm.action = googleFormUrl;
     tempForm.method = 'POST';
-    tempForm.target = 'hidden_iframe';
+    tempForm.target = iframe.name;
     
     for (let [key, value] of formData.entries()) {
         const input = document.createElement('input');
@@ -743,17 +603,15 @@ function handleFormSubmit(e) {
         input.name = key;
         input.value = value;
         tempForm.appendChild(input);
+        console.log(`Field: ${key} = ${value}`);
     }
     
     document.body.appendChild(tempForm);
     tempForm.submit();
     
-    // Show success message
     setTimeout(() => {
-        showSuccessMessage();
-        document.body.removeChild(tempForm);
-        document.body.removeChild(iframe);
-    }, 500);
+        if (tempForm.parentNode) document.body.removeChild(tempForm);
+    }, 1000);
 }
 
 function showSuccessMessage() {
@@ -768,10 +626,6 @@ function showSuccessMessage() {
         </div>
     `;
 }
-
-// ========================================
-// Export Podania functions
-// ========================================
 
 window.openPodaniaModal = openPodaniaModal;
 window.closePodaniaModal = closePodaniaModal;
