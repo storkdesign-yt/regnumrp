@@ -10,7 +10,7 @@ const CONFIG = {
     cfxServerCode: 'dmakaq',
     
     // Update interval for player count (in milliseconds)
-    updateInterval: 10000, // 30 seconds
+    updateInterval: 10000, // 10 seconds
     
     // Discord invite link
     discordInvite: 'https://discord.gg/regnumrp',
@@ -37,58 +37,33 @@ async function fetchPlayerCount() {
     console.log('🔄 Fetching player count...');
     
     try {
-        // Try multiple API endpoint variations
-        const endpoints = [
-            `https://servers-frontend.fivem.net/api/servers/single/${CONFIG.cfxServerCode}`
-        ];
+        // Try the CFX endpoint
+        const endpoint = `https://servers-frontend.fivem.net/api/servers/single/${CONFIG.cfxServerCode}`;
         
-        let data = null;
-        let successfulEndpoint = null;
+        console.log(`Trying: ${endpoint}`);
+        const response = await fetch(endpoint);
         
-        // Try each endpoint until one works
-        for (const endpoint of endpoints) {
-            try {
-                console.log(`Trying: ${endpoint}`);
-                const response = await fetch(endpoint);
-                
-                if (response.ok) {
-                    data = await response.json();
-                    successfulEndpoint = endpoint;
-                    console.log('✅ Server data received from:', endpoint);
-                    break;
-                }
-            } catch (err) {
-                console.log(`Failed to fetch from ${endpoint}:`, err.message);
-                continue;
-            }
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: Server not found`);
         }
         
-        if (!data) {
-            throw new Error('Server not found in any FiveM API endpoint');
-        }
+        const data = await response.json();
+        console.log('✅ Server data received:', data);
         
-        console.log('Server data:', data);
-        
-        // Parse player data - handle different API response structures
+        // Parse player data from the API response
         let playerCount = 0;
         let maxPlayers = 128;
         
-        // FiveM API typically returns data in 'Data' object
-        if (data.Data) {
-            // Try to get player count from various possible fields
+        // The FiveM API returns data in the 'Data' object
+        if (data && data.Data) {
+            // Get current player count
             playerCount = parseInt(data.Data.clients) || 
-                         parseInt(data.Data.players) || 
-                         parseInt(data.Data.playerCount) || 0;
+                         parseInt(data.Data.selfReportedClients) || 
+                         parseInt(data.Data.players) || 0;
             
-            // Try to get max players from various possible fields
+            // Get max players - check both possible field names
             maxPlayers = parseInt(data.Data.sv_maxclients) || 
-                        parseInt(data.Data.svMaxclients) || 
-                        parseInt(data.Data.maxPlayers) || 128;
-        } 
-        // Alternative structure (less common)
-        else if (data.players !== undefined || data.clients !== undefined) {
-            playerCount = parseInt(data.players) || parseInt(data.clients) || 0;
-            maxPlayers = parseInt(data.maxPlayers) || parseInt(data.sv_maxclients) || 128;
+                        parseInt(data.Data.svMaxclients) || 128;
         }
         
         console.log(`👥 Players: ${playerCount}/${maxPlayers}`);
@@ -103,18 +78,16 @@ async function fetchPlayerCount() {
         console.log('   1. Server not publicly listed on FiveM');
         console.log('   2. Server is offline');
         console.log('   3. CORS policy blocking the request');
-        console.log('   4. Incorrect IP or CFX code');
+        console.log('   4. Incorrect CFX code');
         console.log('');
-        console.log('🔧 Solutions:');
-        console.log('   - Verify server is listed at: https://servers.fivem.net/');
-        console.log('   - Current IP in config: ' + CONFIG.serverIP);
-        console.log('   - Current CFX code: ' + CONFIG.cfxServerCode);
-        console.log('   - Enable manual mode by setting CONFIG.manualMode = true');
+        console.log('🔧 Current Configuration:');
+        console.log('   - Server IP: ' + CONFIG.serverIP);
+        console.log('   - CFX Code: ' + CONFIG.cfxServerCode);
         console.log('');
-        console.log('💡 Quick Fix: Enable manual mode in the CONFIG section at the top of main.js');
-        console.log('   Set manualMode: true and update manualPlayerCount to your desired value');
+        console.log('💡 Quick Fix: Enable manual mode in the CONFIG section');
+        console.log('   Set manualMode: true and update manualPlayerCount');
         
-        // Show loading state instead of showing as offline immediately
+        // Show loading state
         updatePlayerDisplay('---', '128');
         updateServerStatus(false);
         
@@ -129,12 +102,10 @@ function showDebugInfo() {
     console.log('Server IP:', CONFIG.serverIP);
     console.log('CFX Code:', CONFIG.cfxServerCode);
     console.log('');
-    console.log('Test URLs (paste in browser to test):');
-    console.log(`1. https://servers-frontend.fivem.net/api/servers/single/${CONFIG.cfxServerCode}`);
-    console.log(`2. https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`);
+    console.log('Test URL (paste in browser to test):');
+    console.log(`https://servers-frontend.fivem.net/api/servers/single/${CONFIG.cfxServerCode}`);
     console.log('');
-    console.log('If none of these work, your server might not be publicly listed.');
-    console.log('Enable manual mode to display static player counts.');
+    console.log('If this doesn\'t work, enable manual mode.');
     console.log('=====================================');
 }
 
