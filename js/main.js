@@ -510,10 +510,10 @@ window.copyServerIP = copyServerIP;
 
 // Google Forms URLs - Replace with your actual form URLs
 const GOOGLE_FORMS = {
-    'dzialalnosc': 'https://forms.gle/Ag7XL8Kn251ZCYbH9',
-    'organizacja': 'https://forms.gle/bpjEvo3287bxxrP47',
-    'peda': 'https://forms.gle/mwh3Xd9r3mFnsNj7',
-    'trial-support': 'https://forms.gle/5FHvgr7aGBxEKkJW9',
+    'dzialalnosc': 'https://forms.gle/Ao7XL8Kn251ZCYbH9',
+    'organizacja': 'https://forms.gle/bpjEvo32878bxrP47',
+    'peda': 'https://forms.gle/mwh3Xd9r3mFnaiNj7',
+    'trial-support': 'https://forms.gle/5FHvgrVaGBxEKkJW9',
     'trial-recruiter': 'https://forms.gle/TnHRBHrWcJxeL2Rg6'
 };
 
