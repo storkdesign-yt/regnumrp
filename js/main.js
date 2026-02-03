@@ -539,7 +539,27 @@ function closePodaniaModal() {
     document.body.style.overflow = '';
     
     setTimeout(() => {
-        backToSelection();
+        // Only reset if we're not on the success screen
+        const successMessage = document.querySelector('.success-message');
+        if (!successMessage) {
+            backToSelection();
+        } else {
+            // Reset everything manually for success screen
+            const selectionDiv = document.getElementById('applicationTypeSelection');
+            const formContainer = document.getElementById('applicationFormContainer');
+            
+            selectionDiv.style.display = 'block';
+            formContainer.style.display = 'none';
+            formContainer.innerHTML = `
+                <div class="form-header">
+                    <button class="back-btn" onclick="backToSelection()">← Wróć</button>
+                    <h3 id="formTitle"></h3>
+                    <p id="formDescription"></p>
+                </div>
+                <form id="applicationForm"></form>
+            `;
+            currentFormType = null;
+        }
     }, 300);
 }
 
