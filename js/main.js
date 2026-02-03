@@ -382,10 +382,10 @@ window.copyServerIP = copyServerIP;
 // IMPORTANT: Use formResponse endpoint instead of viewform
 const GOOGLE_FORMS = {
     'dzialalnosc': 'https://docs.google.com/forms/d/e/1FAIpQLScA0eDO-_EIxyBlq9QC9aF3yzYIERgIs4wxTQLer89MUz0bQQ/formResponse',
-    'organizacja': 'https://forms.gle/bpjEvo32878bxrP47',
-    'peda': 'https://forms.gle/mwh3Xd9r3mFnaiNj7',
-    'trial-support': 'https://forms.gle/5FHvgrVaGBxEKkJW9',
-    'trial-recruiter': 'https://forms.gle/TnHRBHrWcJxeL2Rg6'
+    'organizacja': 'https://docs.google.com/forms/d/e/1FAIpQLScETWppdvnmQplZJy9sWg8HtCqQaWgb6WiiVOPMMgGutK68pg/formResponse',
+    'peda': 'https://docs.google.com/forms/d/e/1FAIpQLSfbNHm6p7jMZL6cl5mcKt69oQAYdA9pl76ByqK93pZ7nKS4SA/formResponse',
+    'trial-support': 'https://docs.google.com/forms/d/e/1FAIpQLSfe2lqChEP1Pz6dZiMw5C7oLMZ9H8CYpvXBZHWSAkEYtXYEXQ/formResponse',
+    'trial-recruiter': 'https://docs.google.com/forms/d/e/1FAIpQLSc8jf6tb_ZTZoJuPOXMGvI5bJA4KkxfJ5V1U6XY2LMkmhGuOA/formResponse',
 };
 
 const FORM_CONFIGS = {
@@ -426,29 +426,96 @@ const FORM_CONFIGS = {
         title: 'Podanie o Organizację/Gang',
         description: 'Wypełnij formularz, aby założyć organizację lub gang',
         fields: [
-            { name: 'entry.123456789', label: 'Nick w grze', type: 'text', required: true },
-            { name: 'entry.987654321', label: 'Discord', type: 'text', required: true },
+            { name: 'entry.1176766843', label: 'Adres e-mail', type: 'text', required: true },
+            { name: 'entry.1940706633', label: 'Discord ID', type: 'text', required: true },
+            { name: 'entry.933736596', label: 'Wiek (Min. 16 Lat)', type: 'text', required: true },
+            { name: 'entry.1681555082', label: 'Wymień osoby które dołączą do grupy przestępczej (Nick discord + ID discord) Minimum 10 osób', type: 'textarea', required: true },
+            { 
+                name: 'entry.799268697', 
+                label: 'Rodzaj grupy przestępczej', 
+                type: 'select', 
+                required: true, 
+                options: ['Organizacja', 'Gang - Ballas', 'Gang - Vagos', 'Gang - GSF', 'Gang - Marabunta'] 
+            },
+            { name: 'entry.454248832', label: 'Nazwa organizacji (Dotyczy tylko Organizacji | Nazwa nie może zawierać: Cyferek, Liczb, Polskich Nazw)', type: 'text', required: true },
+            { name: 'entry.79087489', label: 'Dlaczego to właśnie ty powinieneś dostać organizacje/gang', type: 'textarea', required: true },
+            { name: 'entry.1070482007', label: 'Co twoja organizacja/gang wniesie na serwer?', type: 'textarea', required: true },
+            { 
+                name: 'entry.2051617241', 
+                label: 'Jakie macie doświadczenie w RP', 
+                type: 'select', 
+                required: true, 
+                options: ['Słabe', 'Przeciętne', 'Bardzo Dobre', 'Hard RP'] 
+            },
         ]
     },
     'peda': {
         title: 'Podanie o Peda',
         description: 'Złóż podanie o unikalnego peda dla swojej postaci',
         fields: [
-            { name: 'entry.123456789', label: 'Nick w grze', type: 'text', required: true },
+            { name: 'entry.1168696317', label: 'Imię', type: 'text', required: true },
+            { name: 'entry.2015826394', label: 'Wiek', type: 'text', required: true },
+            { name: 'entry.1948920591', label: 'Discord ID', type: 'text', required: true },
+            { 
+                name: 'entry.29741602', 
+                label: 'Czy jesteś w stanie zakupić drugą postać pod rozgrywkę na postaci z pedem? (2 Postać jest obowiązkowa)', 
+                type: 'select', 
+                required: true, 
+                options: ['Tak', 'Nie'] 
+            },
+            { 
+                name: 'entry.1323844569', 
+                label: 'Jaki rodzaj peda chciałbyś odgrywać?', 
+                type: 'select', 
+                required: true, 
+                options: ['Ped Inny (np. Starszy Pan/Pani)', 'Ped Zwierzaka (np. Pies,Kot)'] 
+            },
+            { name: 'entry.46533548', label: 'Od jakiego czasu grasz na serwerze?', type: 'text', required: true },
+            { name: 'entry.366296895', label: 'Co i Kogo aktualnie odgrywasz na serwerze?', type: 'textarea', required: true },
+            { name: 'entry.891215668', label: 'Model peda który masz zamiar odgrywać (Podaj link lub nazwę peda)', type: 'textarea', required: true },
+            { name: 'entry.1885142044', label: 'Krótki opis planu  rozgrywki na postaci peda', type: 'textarea', required: true },
+            { 
+                name: 'entry.1528038621', 
+                label: 'Czy posiadasz osoby z którymi będziesz odgrywał?', 
+                type: 'select', 
+                required: true, 
+                options: ['Nie', 'Tak'] 
+            },
+            { name: 'entry.819531488', label: 'Czy posiadasz doświadczenie w odgrywaniu peda?', type: 'textarea', required: true },
+            { name: 'entry.1473701144', label: 'Dlaczego akurat to twoje podanie o peda powinno zostać zaakceptowane?', type: 'textarea', required: true },
+            
         ]
     },
     'trial-support': {
         title: 'Podanie na Trial Supporta',
         description: 'Aplikuj na stanowisko Trial Supporta',
         fields: [
-            { name: 'entry.123456789', label: 'Nick w grze', type: 'text', required: true },
+            { name: 'entry.1935754366', label: 'Imię', type: 'text', required: true },
+            { name: 'entry.714175555', label: 'Wiek', type: 'text', required: true },
+            { name: 'entry.623552792', label: 'Discord ID', type: 'text', required: true },
+            { name: 'entry.2056311245', label: 'Co Twoja obecność w Administracji wniesie do projektu?', type: 'textarea', required: true },
+            { name: 'entry.346393848', label: 'Dlaczego chciałbyś/chciałabyś dołączyć do administracji?', type: 'textarea', required: true },
+            { name: 'entry.842119622', label: 'Posiadasz doświadczenie w działaniach administracyjnych? (Jeśli tak, to jakie)', type: 'textarea', required: true },
+            { name: 'entry.460308244', label: 'Jaką karę powinien otrzymać członek administracji za złamanie regulaminu serwera?', type: 'textarea', required: true },
+            { name: 'entry.557489230', label: 'Czym jest dla Ciebie Roleplay? Opisz swoje podejście do RP', type: 'textarea', required: true },
+            { name: 'entry.1898081229', label: 'Jakie przewinienie gracza ukarałbyś/ukarałabyś permamentnym wykluczeniem z rozgrywki?', type: 'textarea', required: true },
+            { name: 'entry.1805251834', label: 'W jakim przypadku przerwałbyś/przerwałabyś akcje RP?', type: 'textarea', required: true },
+            { name: 'entry.1003966389', label: 'Czy uważasz, że powinno praktykować się "cofanie akcji"?', type: 'textarea', required: true },
         ]
     },
     'trial-recruiter': {
         title: 'Podanie na Trial Recruitera',
         description: 'Aplikuj na stanowisko Trial Recruitera',
         fields: [
-            { name: 'entry.123456789', label: 'Nick w grze', type: 'text', required: true },
+            { name: 'entry.1935754366', label: 'Imię', type: 'text', required: true },
+            { name: 'entry.714175555', label: 'Wiek', type: 'text', required: true },
+            { name: 'entry.623552792', label: 'Discord ID', type: 'text', required: true },
+            { name: 'entry.2056311245', label: 'Co Twoja obecność w Recruiting Teamie wniesie do projektu?', type: 'textarea', required: true },
+            { name: 'entry.346393848', label: 'Dlaczego chciałbyś/chciałabyś dołączyć do Recruiting Teamu?', type: 'textarea', required: true },
+            { name: 'entry.842119622', label: 'Posiadasz doświadczenie jako WL CHECKER? (Jeśli tak, to jakie)', type: 'textarea', required: true },
+            { name: 'entry.460308244', label: 'W jakim przypadku nie zaliczyłbyś pozytywnie whitelisty graczowi?', type: 'textarea', required: true },
+            { name: 'entry.557489230', label: 'Czym jest dla Ciebie WL Checking?', type: 'textarea', required: true },
+            { name: 'entry.1003966389', label: 'Czy uważasz, że powinno praktykować się "ułatwianie" wlki graczom którzy nie znają się aż tak na Role Playu?', type: 'textarea', required: true },
         ]
     }
 };
