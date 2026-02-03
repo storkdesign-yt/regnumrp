@@ -515,7 +515,7 @@ const FORM_CONFIGS = {
             { name: 'entry.842119622', label: 'Posiadasz doświadczenie jako WL CHECKER? (Jeśli tak, to jakie)', type: 'textarea', required: true },
             { name: 'entry.460308244', label: 'W jakim przypadku nie zaliczyłbyś pozytywnie whitelisty graczowi?', type: 'textarea', required: true },
             { name: 'entry.557489230', label: 'Czym jest dla Ciebie WL Checking?', type: 'textarea', required: true },
-            { name: 'entry.1003966389', label: 'Czy uważasz, że powinno praktykować się "ułatwianie" wlki graczom którzy nie znają się aż tak na Role Playu?', type: 'textarea', required: true },
+            { name: 'entry.1003966389', label: 'Czy uważasz, że powinno praktykować się "ułatwianie" wlki graczom którzy nie znają się aż tak na Role Play?', type: 'textarea', required: true },
         ]
     }
 };
