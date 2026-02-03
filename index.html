@@ -40,6 +40,7 @@
                     <li><a href="#about" class="nav-link">O Serwerze</a></li>
                     <li><a href="#features" class="nav-link">Funkcje</a></li>
                     <li><a href="#staff" class="nav-link">Administracja</a></li>
+                    <li><a href="#" class="nav-link" onclick="openPodaniaModal(); return false;">Podania</a></li>
                     <li><a href="#connect" class="nav-link">Jak dołączyć</a></li>
                 </ul>
 
@@ -174,11 +175,11 @@
                 <div class="feature-card">
                     <div class="feature-icon">🏪</div>
                     <h3>Własne Biznesy</h3>
-                    <p>Twórz i zarządzaj swoimi własnymi przedsiębiorstwami</p>
+                    <p>Kup i prowadź swój własny biznes - od sklepu po klub nocny</p>
                 </div>
                 <div class="feature-card">
                     <div class="feature-icon">🚗</div>
-                    <h3>Ponad 500 Pojazdów</h3>
+                    <h3>Realistyczne Pojazdy</h3>
                     <p>Ogromna kolekcja pojazdów - od codziennych aut po luksusowe supersamochody</p>
                 </div>
                 <div class="feature-card">
@@ -309,6 +310,83 @@
             </div>
         </div>
     </section>
+
+    <!-- Podania Modal -->
+    <div id="podaniaModal" class="modal">
+        <div class="modal-overlay" onclick="closePodaniaModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closePodaniaModal()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <!-- Application Type Selection -->
+            <div id="applicationTypeSelection" class="application-selection">
+                <div class="modal-header">
+                    <h2>Wybierz typ podania</h2>
+                    <p>Kliknij, aby wybrać odpowiedni formularz podania</p>
+                </div>
+
+                <div class="application-types">
+                    <div class="application-card" onclick="selectApplicationType('dzialalnosc')">
+                        <div class="app-icon">📋</div>
+                        <h3>Podanie o działalność</h3>
+                        <p>Złóż podanie o prowadzenie działalności na serwerze</p>
+                        <div class="app-arrow">→</div>
+                    </div>
+
+                    <div class="application-card" onclick="selectApplicationType('organizacja')">
+                        <div class="app-icon">👥</div>
+                        <h3>Podanie o Organizację/Gang</h3>
+                        <p>Załóż własną organizację lub gang</p>
+                        <div class="app-arrow">→</div>
+                    </div>
+
+                    <div class="application-card" onclick="selectApplicationType('peda')">
+                        <div class="app-icon">🚶</div>
+                        <h3>Podanie o Peda</h3>
+                        <p>Złóż podanie o unikalnego peda dla swojej postaci</p>
+                        <div class="app-arrow">→</div>
+                    </div>
+
+                    <div class="application-card" onclick="selectApplicationType('trial-support')">
+                        <div class="app-icon">🎯</div>
+                        <h3>Podanie na Trial Supporta</h3>
+                        <p>Dołącz do zespołu supportu</p>
+                        <div class="app-arrow">→</div>
+                    </div>
+
+                    <div class="application-card" onclick="selectApplicationType('trial-recruiter')">
+                        <div class="app-icon">🎓</div>
+                        <h3>Podanie na Trial Recruitera</h3>
+                        <p>Zostań rekruterem i pomagaj nowym graczom</p>
+                        <div class="app-arrow">→</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Application Forms -->
+            <div id="applicationFormContainer" class="application-form" style="display: none;">
+                <button class="back-button" onclick="backToSelection()">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M15 10H5M5 10L10 15M5 10L10 5"/>
+                    </svg>
+                    Powrót
+                </button>
+                
+                <div class="modal-header">
+                    <h2 id="formTitle">Podanie</h2>
+                    <p id="formDescription">Wypełnij poniższy formularz</p>
+                </div>
+
+                <form id="applicationForm" class="custom-form">
+                    <!-- Form fields will be dynamically inserted here -->
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

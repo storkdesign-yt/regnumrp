@@ -504,3 +504,276 @@ document.addEventListener('DOMContentLoaded', () => {
 window.scrollToSection = scrollToSection;
 window.connectToServer = connectToServer;
 window.copyServerIP = copyServerIP;
+// ========================================
+// Podania (Applications) System
+// ========================================
+
+// Google Forms URLs - Replace with your actual form URLs
+const GOOGLE_FORMS = {
+    'dzialalnosc': 'https://forms.gle/Ag7XL8Kn251ZCYbH9',
+    'organizacja': 'https://forms.gle/bpjEvo3287bxxrP47',
+    'peda': 'https://forms.gle/mwh3Xd9r3mFnsNj7',
+    'trial-support': 'https://forms.gle/5FHvgr7aGBxEKkJW9',
+    'trial-recruiter': 'https://forms.gle/TnHRBHrWcJxeL2Rg6'
+};
+
+// Form configurations
+const FORM_CONFIGS = {
+    'dzialalnosc': {
+        title: 'Podanie o działalność',
+        description: 'Wypełnij formularz, aby złożyć podanie o prowadzenie działalności',
+        fields: [
+            { name: 'entry.1392446209', label: 'Imię', type: 'text', required: true },
+            { name: 'entry.184294948', label: 'Wiek', type: 'text', required: true },
+            { name: 'entry.437894828', label: 'Discord ID', type: 'text', required: true },
+            { name: 'entry.127153598', label: 'Czy zapoznałeś się informacją oraz wytycznymi co do działalności zawartej w ogłoszeniu oraz ją akceptujesz?', type: 'select', required: true, options: ['Tak', 'Nie'] },
+            { name: 'entry.532684954', label: 'Czy zapoznałeś się z obowiązującym regulaminem firm oraz z wymogami?', type: 'select', required: true, options: ['Tak', 'Nie'] },
+            { name: 'entry.2069942877', label: 'Nazwa Firmy', type: 'textarea', required: true },
+            { name: 'entry.182995140', label: 'Jaki jest zamysł twojej firmy?', type: 'textarea', required: true },
+            { name: 'entry.636871358', label: 'Co twoja firma wniesie na serwer', type: 'textarea', required: true },
+            { name: 'entry.411116480', label: 'Lokalizacja Firmy', type: 'textarea', required: true },
+            { name: 'entry.1714576130', label: 'W jaki sposób twoja firma będzie zarabiać', type: 'textarea', required: true },
+            { name: 'entry.1033141881', label: 'Opisz swoją aktualną odgrywaną postać', type: 'textarea', required: true },
+            { name: 'entry.1270000745', label: 'Dlaczego to właśnie ty powinieneś/aś dostać firmę?', type: 'textarea', required: true },
+            { name: 'entry.1979208409', label: 'Jakie są twoje zainteresowania [OOC]', type: 'textarea', required: true },
+            { name: 'entry.673989797', label: 'Dlaczego uważasz, że taka firma byłaby pożądana u graczy?', type: 'textarea', required: true },
+            { name: 'entry.1368237543', label: 'Czy masz doświadczenie z zarządzaniem? [OOC]', type: 'textarea', required: true },
+        ]
+    },
+    'organizacja': {
+        title: 'Podanie o Organizację/Gang',
+        description: 'Wypełnij formularz, aby założyć organizację lub gang',
+        fields: [
+            { name: 'entry.123456789', label: 'Nick w grze', type: 'text', required: true },
+            { name: 'entry.987654321', label: 'Discord', type: 'text', required: true },
+            { name: 'entry.111111111', label: 'Nazwa organizacji/gangu', type: 'text', required: true },
+            { name: 'entry.222222222', label: 'Typ organizacji', type: 'select', required: true, options: ['Gang uliczny', 'Gang motocyklowy', 'Organizacja kryminalna', 'Legalna organizacja'] },
+            { name: 'entry.333333333', label: 'Historia organizacji', type: 'textarea', required: true, helper: 'Opisz historię i tło organizacji' },
+            { name: 'entry.444444444', label: 'Struktura i cele', type: 'textarea', required: true, helper: 'Opisz strukturę organizacji i jej główne cele' },
+            { name: 'entry.555555555', label: 'Oczekiwana liczba członków', type: 'number', required: true },
+        ]
+    },
+    'peda': {
+        title: 'Podanie o Peda',
+        description: 'Złóż podanie o unikalnego peda dla swojej postaci',
+        fields: [
+            { name: 'entry.123456789', label: 'Nick w grze', type: 'text', required: true },
+            { name: 'entry.987654321', label: 'Discord', type: 'text', required: true },
+            { name: 'entry.111111111', label: 'Nazwa peda', type: 'text', required: true },
+            { name: 'entry.222222222', label: 'Link do peda', type: 'url', required: true, helper: 'Link do modelu peda (np. GTA5-Mods.com)' },
+            { name: 'entry.333333333', label: 'Powód wniosku', type: 'textarea', required: true, helper: 'Dlaczego potrzebujesz tego peda do swojej postaci?' },
+            { name: 'entry.444444444', label: 'Opis postaci', type: 'textarea', required: true, helper: 'Opisz swoją postać i jak ten ped wpasuje się w jej historię' },
+        ]
+    },
+    'trial-support': {
+        title: 'Podanie na Trial Supporta',
+        description: 'Aplikuj na stanowisko Trial Supporta',
+        fields: [
+            { name: 'entry.123456789', label: 'Nick w grze', type: 'text', required: true },
+            { name: 'entry.987654321', label: 'Discord', type: 'text', required: true },
+            { name: 'entry.111111111', label: 'Wiek', type: 'number', required: true },
+            { name: 'entry.222222222', label: 'Doświadczenie na serwerze', type: 'textarea', required: true, helper: 'Opisz swoje doświadczenie na serwerze Regnum' },
+            { name: 'entry.333333333', label: 'Dostępność', type: 'textarea', required: true, helper: 'Ile godzin dziennie możesz poświęcić na pomoc graczom?' },
+            { name: 'entry.444444444', label: 'Dlaczego chcesz zostać supportem?', type: 'textarea', required: true },
+            { name: 'entry.555555555', label: 'Jak pomogłbyś społeczności?', type: 'textarea', required: true },
+        ]
+    },
+    'trial-recruiter': {
+        title: 'Podanie na Trial Recruitera',
+        description: 'Aplikuj na stanowisko Trial Recruitera',
+        fields: [
+            { name: 'entry.123456789', label: 'Nick w grze', type: 'text', required: true },
+            { name: 'entry.987654321', label: 'Discord', type: 'text', required: true },
+            { name: 'entry.111111111', label: 'Wiek', type: 'number', required: true },
+            { name: 'entry.222222222', label: 'Doświadczenie w rekrutacji', type: 'textarea', required: true, helper: 'Opisz swoje doświadczenie w rekrutacji lub szkoleniu nowych graczy' },
+            { name: 'entry.333333333', label: 'Dostępność', type: 'textarea', required: true, helper: 'Ile godzin dziennie możesz poświęcić na rekrutację?' },
+            { name: 'entry.444444444', label: 'Dlaczego chcesz zostać rekruterem?', type: 'textarea', required: true },
+            { name: 'entry.555555555', label: 'Jak poprawisz proces whitelistowania?', type: 'textarea', required: true },
+        ]
+    }
+};
+
+let currentFormType = null;
+
+function openPodaniaModal() {
+    const modal = document.getElementById('podaniaModal');
+    const selectionDiv = document.getElementById('applicationTypeSelection');
+    const formContainer = document.getElementById('applicationFormContainer');
+    
+    modal.classList.add('active');
+    selectionDiv.style.display = 'block';
+    formContainer.style.display = 'none';
+    document.body.style.overflow = 'hidden';
+}
+
+function closePodaniaModal() {
+    const modal = document.getElementById('podaniaModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+    
+    // Reset form after a delay
+    setTimeout(() => {
+        backToSelection();
+    }, 300);
+}
+
+function selectApplicationType(type) {
+    currentFormType = type;
+    const config = FORM_CONFIGS[type];
+    
+    const selectionDiv = document.getElementById('applicationTypeSelection');
+    const formContainer = document.getElementById('applicationFormContainer');
+    const formTitle = document.getElementById('formTitle');
+    const formDescription = document.getElementById('formDescription');
+    const form = document.getElementById('applicationForm');
+    
+    // Update title and description
+    formTitle.textContent = config.title;
+    formDescription.textContent = config.description;
+    
+    // Build form
+    form.innerHTML = '';
+    
+    config.fields.forEach(field => {
+        const formGroup = document.createElement('div');
+        formGroup.className = 'form-group';
+        
+        const label = document.createElement('label');
+        label.innerHTML = `${field.label}${field.required ? ' <span class="required">*</span>' : ''}`;
+        formGroup.appendChild(label);
+        
+        let input;
+        
+        if (field.type === 'textarea') {
+            input = document.createElement('textarea');
+            input.className = 'form-textarea';
+            input.rows = 5;
+        } else if (field.type === 'select') {
+            input = document.createElement('select');
+            input.className = 'form-select';
+            
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.textContent = 'Wybierz opcję...';
+            input.appendChild(defaultOption);
+            
+            field.options.forEach(option => {
+                const optionElement = document.createElement('option');
+                optionElement.value = option;
+                optionElement.textContent = option;
+                input.appendChild(optionElement);
+            });
+        } else {
+            input = document.createElement('input');
+            input.className = 'form-input';
+            input.type = field.type || 'text';
+        }
+        
+        input.name = field.name;
+        input.required = field.required || false;
+        input.placeholder = field.placeholder || '';
+        
+        formGroup.appendChild(input);
+        
+        if (field.helper) {
+            const helper = document.createElement('div');
+            helper.className = 'form-helper';
+            helper.textContent = field.helper;
+            formGroup.appendChild(helper);
+        }
+        
+        form.appendChild(formGroup);
+    });
+    
+    // Add submit button
+    const submitBtn = document.createElement('button');
+    submitBtn.type = 'submit';
+    submitBtn.className = 'form-submit';
+    submitBtn.textContent = 'Wyślij podanie';
+    form.appendChild(submitBtn);
+    
+    // Add form submit handler
+    form.onsubmit = handleFormSubmit;
+    
+    // Show form, hide selection
+    selectionDiv.style.display = 'none';
+    formContainer.style.display = 'block';
+}
+
+function backToSelection() {
+    const selectionDiv = document.getElementById('applicationTypeSelection');
+    const formContainer = document.getElementById('applicationFormContainer');
+    const form = document.getElementById('applicationForm');
+    
+    selectionDiv.style.display = 'block';
+    formContainer.style.display = 'none';
+    form.reset();
+    currentFormType = null;
+}
+
+function handleFormSubmit(e) {
+    e.preventDefault();
+    
+    if (!currentFormType) return;
+    
+    const formData = new FormData(e.target);
+    const googleFormUrl = GOOGLE_FORMS[currentFormType];
+    
+    // Build the Google Form submission URL
+    const params = new URLSearchParams();
+    for (let [key, value] of formData.entries()) {
+        params.append(key, value);
+    }
+    
+    // Create hidden iframe for form submission
+    const iframe = document.createElement('iframe');
+    iframe.name = 'hidden_iframe';
+    iframe.style.display = 'none';
+    document.body.appendChild(iframe);
+    
+    // Create temporary form
+    const tempForm = document.createElement('form');
+    tempForm.action = googleFormUrl;
+    tempForm.method = 'POST';
+    tempForm.target = 'hidden_iframe';
+    
+    for (let [key, value] of formData.entries()) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = value;
+        tempForm.appendChild(input);
+    }
+    
+    document.body.appendChild(tempForm);
+    tempForm.submit();
+    
+    // Show success message
+    setTimeout(() => {
+        showSuccessMessage();
+        document.body.removeChild(tempForm);
+        document.body.removeChild(iframe);
+    }, 500);
+}
+
+function showSuccessMessage() {
+    const formContainer = document.getElementById('applicationFormContainer');
+    
+    formContainer.innerHTML = `
+        <div class="success-message active">
+            <div class="success-icon">✅</div>
+            <h3>Podanie wysłane!</h3>
+            <p>Twoje podanie zostało pomyślnie wysłane. Odpowiedź otrzymasz na Discordzie.</p>
+            <button class="btn btn-primary" onclick="closePodaniaModal()">Zamknij</button>
+        </div>
+    `;
+}
+
+// ========================================
+// Export Podania functions
+// ========================================
+
+window.openPodaniaModal = openPodaniaModal;
+window.closePodaniaModal = closePodaniaModal;
+window.selectApplicationType = selectApplicationType;
+window.backToSelection = backToSelection;
