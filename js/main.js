@@ -426,7 +426,7 @@ const FORM_CONFIGS = {
         title: 'Podanie o Organizację/Gang',
         description: 'Wypełnij formularz, aby założyć organizację lub gang',
         fields: [
-            { name: 'entry.1176766843', label: 'Adres e-mail', type: 'text', required: true },
+            { name: 'entry.1176766843', label: 'Adres email', type: 'text', required: true },
             { name: 'entry.1940706633', label: 'Discord ID', type: 'text', required: true },
             { name: 'entry.933736596', label: 'Wiek (Min. 16 Lat)', type: 'text', required: true },
             { name: 'entry.1681555082', label: 'Wymień osoby które dołączą do grupy przestępczej (Nick discord + ID discord) Minimum 10 osób', type: 'textarea', required: true },
@@ -437,7 +437,7 @@ const FORM_CONFIGS = {
                 required: true, 
                 options: ['Organizacja', 'Gang - Ballas', 'Gang - Vagos', 'Gang - GSF', 'Gang - Marabunta'] 
             },
-            { name: 'entry.454248832', label: 'Nazwa organizacji (Dotyczy tylko Organizacji | Nazwa nie może zawierać: Cyferek, Liczb, Polskich Nazw)', type: 'text' },
+            { name: 'entry.454248832', label: 'Nazwa organizacji (Dotyczy tylko Organizacji | Nazwa nie może zawierać: Cyferek, Liczb, Polskich Nazw)', type: 'text', required: false },
             { name: 'entry.79087489', label: 'Dlaczego to właśnie ty powinieneś dostać organizacje/gang', type: 'textarea', required: true },
             { name: 'entry.1070482007', label: 'Co twoja organizacja/gang wniesie na serwer?', type: 'textarea', required: true },
             { 
