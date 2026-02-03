@@ -4,13 +4,13 @@
 
 const CONFIG = {
     // Replace with your actual FiveM server IP:PORT
-    serverIP: '83.168.105.17:40120',
+    serverIP: '83.168.105.17:30120',
     
     // CFX.re server code (if using cfx.re/join/yourcode)
     cfxServerCode: 'dmakaq',
     
     // Update interval for player count (in milliseconds)
-    updateInterval: 30000, // 30 seconds
+    updateInterval: 10000, // 30 seconds
     
     // Discord invite link
     discordInvite: 'https://discord.gg/regnumrp',
@@ -59,6 +59,16 @@ function updatePlayerDisplay(current, max) {
     
     if (maxPlayersElement) {
         maxPlayersElement.textContent = max;
+    }
+    
+    // Update players widget
+    const widgetCount = document.querySelector('.widget-count');
+    if (widgetCount) {
+        const currentStr = current.toString().padStart(3, '0');
+        const digits = currentStr.split('');
+        widgetCount.innerHTML = digits.map(digit => 
+            `<span class="count-separator">${digit}</span>`
+        ).join('');
     }
 }
 

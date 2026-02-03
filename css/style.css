@@ -407,6 +407,68 @@ section {
     50% { opacity: 0.3; }
 }
 
+/* Players Online Widget */
+.players-widget {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem 2.5rem;
+    background: rgba(26, 26, 26, 0.8);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(250, 73, 83, 0.3);
+    border-radius: 12px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: all var(--transition-normal);
+}
+
+.players-widget:hover {
+    transform: translateY(-3px);
+    border-color: var(--red-light);
+    box-shadow: var(--shadow-glow-red);
+}
+
+.widget-icon {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(250, 73, 83, 0.15);
+    border-radius: 8px;
+    color: var(--red-light);
+}
+
+.widget-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.widget-count {
+    display: flex;
+    gap: 0.5rem;
+    font-family: 'Teko', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--red-light);
+}
+
+.count-separator {
+    min-width: 20px;
+    text-align: center;
+}
+
+.widget-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
 .hero-title {
     display: flex;
     flex-direction: column;
@@ -1111,6 +1173,29 @@ section {
 
     .hero {
         padding: 100px 1rem 60px;
+    }
+
+    .players-widget {
+        padding: 1rem 1.5rem;
+        gap: 1rem;
+    }
+
+    .widget-icon {
+        width: 50px;
+        height: 50px;
+    }
+
+    .widget-icon svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .widget-count {
+        font-size: 1.8rem;
+    }
+
+    .widget-label {
+        font-size: 0.75rem;
     }
 
     .hero-stats {
