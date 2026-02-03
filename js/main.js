@@ -4,13 +4,13 @@
 
 const CONFIG = {
     // Replace with your actual FiveM server IP:PORT
-    serverIP: '83.168.105.17:40120',
+    serverIP: '83.168.105.17:30120',
     
     // CFX.re server code (if using cfx.re/join/yourcode)
     cfxServerCode: 'dmakaq',
     
     // Update interval for player count (in milliseconds)
-    updateInterval: 30000, // 30 seconds
+    updateInterval: 10000, // 30 seconds
     
     // Discord invite link
     discordInvite: 'https://discord.gg/regnumrp',
@@ -39,12 +39,7 @@ async function fetchPlayerCount() {
     try {
         // Try multiple API endpoint variations
         const endpoints = [
-            // Method 1: CFX code only (most common)
-            `https://servers-frontend.fivem.net/api/servers/single/${CONFIG.cfxServerCode}`,
-            // Method 2: Full CFX path
-            `https://servers-frontend.fivem.net/api/servers/single/cfx.re/join/${CONFIG.cfxServerCode}`,
-            // Method 3: Direct IP:PORT
-            `https://servers-frontend.fivem.net/api/servers/single/${CONFIG.serverIP}`
+            `https://servers-frontend.fivem.net/api/servers/single/${CONFIG.cfxServerCode}`
         ];
         
         let data = null;
