@@ -4,7 +4,7 @@
 
 const CONFIG = {
     // Replace with your actual FiveM server IP:PORT
-    serverIP: '83.168.105.17:30120',
+    serverIP: '83.168.105.17:40120',
     
     // CFX.re server code (if using cfx.re/join/yourcode)
     cfxServerCode: 'dmakaq',
