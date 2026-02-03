@@ -437,7 +437,7 @@ const FORM_CONFIGS = {
                 required: true, 
                 options: ['Organizacja', 'Gang - Ballas', 'Gang - Vagos', 'Gang - GSF', 'Gang - Marabunta'] 
             },
-            { name: 'entry.454248832', label: 'Nazwa organizacji (Dotyczy tylko Organizacji | Nazwa nie może zawierać: Cyferek, Liczb, Polskich Nazw)', type: 'text', required: false },
+            { name: 'entry.454248832', label: 'Nazwa organizacji (Dotyczy tylko Organizacji | Nazwa nie może zawierać: Cyferek, Liczb, Polskich Nazw)', type: 'text' },
             { name: 'entry.79087489', label: 'Dlaczego to właśnie ty powinieneś dostać organizacje/gang', type: 'textarea', required: true },
             { name: 'entry.1070482007', label: 'Co twoja organizacja/gang wniesie na serwer?', type: 'textarea', required: true },
             { 
