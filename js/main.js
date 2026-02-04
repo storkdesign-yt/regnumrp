@@ -429,7 +429,7 @@ const FORM_CONFIGS = {
             { name: 'entry.1176766843', label: 'Imię', type: 'text', required: true },
             { name: 'entry.1940706633', label: 'Discord ID', type: 'text', required: true },
             { name: 'entry.933736596', label: 'Wiek (Min. 16 lat)', type: 'text', required: true },
-            { name: 'entry.1681555082', label: 'Wymień osoby które dołączą do grupy przestępczej (Nick discord + ID discord) Minimum 10 osób', type: 'textarea', required: true },
+            { name: 'entry.1681555082', label: 'Wymień osoby które dołączą do grupy przestępczej (Nick discord + ID discord) Minimum 10 osób', type: 'text', required: true },
             { 
                 name: 'entry.799268697', 
                 label: 'Rodzaj grupy przestępczej', 
