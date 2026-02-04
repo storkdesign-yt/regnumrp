@@ -382,7 +382,7 @@ window.copyServerIP = copyServerIP;
 // IMPORTANT: Use formResponse endpoint instead of viewform
 const GOOGLE_FORMS = {
     'dzialalnosc': 'https://docs.google.com/forms/d/e/1FAIpQLScA0eDO-_EIxyBlq9QC9aF3yzYIERgIs4wxTQLer89MUz0bQQ/formResponse',
-    'organizacja': 'https://docs.google.com/forms/d/e/1FAIpQLScETWppdvnmQplZJy9sWg8HtCqQaWgb6WiiVOPMMgGutK68pg/formResponse',
+    'organizacja': 'https://docs.google.com/forms/d/e/1FAIpQLScU1fk6EMMM0yC1IgWvUv-Ojva2yiS-fD_01MpY55DhM3sZ1g/formResponse',
     'peda': 'https://docs.google.com/forms/d/e/1FAIpQLSfbNHm6p7jMZL6cl5mcKt69oQAYdA9pl76ByqK93pZ7nKS4SA/formResponse',
     'trial-support': 'https://docs.google.com/forms/d/e/1FAIpQLSfe2lqChEP1Pz6dZiMw5C7oLMZ9H8CYpvXBZHWSAkEYtXYEXQ/formResponse',
     'trial-recruiter': 'https://docs.google.com/forms/d/e/1FAIpQLSc8jf6tb_ZTZoJuPOXMGvI5bJA4KkxfJ5V1U6XY2LMkmhGuOA/formResponse',
@@ -430,23 +430,11 @@ const FORM_CONFIGS = {
             { name: 'entry.1940706633', label: 'Discord ID', type: 'text', required: true },
             { name: 'entry.933736596', label: 'Wiek (Min. 16 lat)', type: 'text', required: true },
             { name: 'entry.1681555082', label: 'Wymień osoby które dołączą do grupy przestępczej (Nick discord + ID discord) Minimum 10 osób', type: 'text', required: true },
-            { 
-                name: 'entry.799268697', 
-                label: 'Rodzaj grupy przestępczej', 
-                type: 'select', 
-                required: true, 
-                options: ['Organizacja', 'Gang - Ballas', 'Gang - Vagos', 'Gang - GSF', 'Gang - Marabunta'] 
-            },
-            { name: 'entry.454248832', label: 'Nazwa organizacji (Dotyczy tylko Organizacji | Nazwa nie może zawierać: Cyferek, Liczb, Polskich Nazw)', type: 'text', required: false },
+            { name: 'entry.799268697', label: 'Jaką grupę przestępczą chcesz prowadzić?', type: 'textarea', required: true },
+            { name: 'entry.454248832', label: 'Nazwa organizacji/gangu', type: 'text', required: true },
             { name: 'entry.79087489', label: 'Dlaczego to właśnie ty powinieneś dostać organizacje/gang', type: 'textarea', required: true },
             { name: 'entry.1070482007', label: 'Co twoja organizacja/gang wniesie na serwer?', type: 'textarea', required: true },
-            { 
-                name: 'entry.2051617241', 
-                label: 'Jakie macie doświadczenie w RP', 
-                type: 'select', 
-                required: true, 
-                options: ['Słabe', 'Przeciętne', 'Bardzo dobre', 'Hard RP'] 
-            },
+            { name: 'entry.2051617241', label: 'Jakie macie doświadczenie w RP', type: 'textarea', required: true },
         ]
     },
     'peda': {
