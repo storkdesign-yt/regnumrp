@@ -1,0 +1,128 @@
+@import '@/styles/variables.scss';
+
+.home-page {
+  min-height: 100vh;
+}
+
+.features {
+  padding: 6rem 0;
+  position: relative;
+
+  &__header {
+    text-align: center;
+    margin-bottom: 4rem;
+
+    h2 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+
+      @media (max-width: $breakpoint-md) {
+        font-size: 2.5rem;
+      }
+    }
+
+    p {
+      font-size: 1.25rem;
+      color: $text-secondary;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+
+    @media (max-width: $breakpoint-sm) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.feature-card {
+  text-align: center;
+
+  &__icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(239, 68, 68, 0.1));
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    border-radius: $radius-xl;
+    transition: all $transition-normal;
+
+    i {
+      font-size: 2.5rem;
+      color: $primary-light;
+    }
+  }
+
+  &:hover &__icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 0 30px rgba(220, 38, 38, 0.3);
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 0.75rem;
+    color: $text-primary;
+  }
+
+  p {
+    color: $text-secondary;
+    line-height: 1.6;
+  }
+}
+
+.stats {
+  padding: 4rem 0;
+  background: linear-gradient(180deg, transparent, rgba(220, 38, 38, 0.05), transparent);
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 3rem;
+
+    @media (max-width: $breakpoint-md) {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+
+    @media (max-width: $breakpoint-sm) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.stat-item {
+  text-align: center;
+  padding: 2rem;
+  background: rgba(220, 38, 38, 0.05);
+  border: 1px solid rgba(220, 38, 38, 0.2);
+  border-radius: $radius-lg;
+  transition: all $transition-normal;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: rgba(220, 38, 38, 0.4);
+    box-shadow: 0 10px 30px rgba(220, 38, 38, 0.2);
+  }
+
+  &__value {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+
+    @media (max-width: $breakpoint-sm) {
+      font-size: 2.5rem;
+    }
+  }
+
+  &__label {
+    color: $text-secondary;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+}
